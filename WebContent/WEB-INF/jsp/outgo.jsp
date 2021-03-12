@@ -4,17 +4,18 @@
 <%@ page import="model.User, java.util.Date, java.text.SimpleDateFormat, java.util.Calendar" %>
 <% User loginUser = (User) session.getAttribute("loginUser"); %>
 
-<% Date now = new Date(); %>
-
-<% SimpleDateFormat y = new SimpleDateFormat("yyyy"); %>
-<% int year = Integer.parseInt(y.format(now)); %>
-<% SimpleDateFormat m = new SimpleDateFormat("MM"); %>
-<% int month = Integer.parseInt(m.format(now)); %>
-<% SimpleDateFormat d = new SimpleDateFormat("dd"); %>
-<% int day = Integer.parseInt(d.format(now)); %>
-<% Calendar c = Calendar.getInstance(); %>
+<%-- 今日の日付を取得 --%>
+<% Calendar cl = Calendar.getInstance(); %>
 <% SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd"); %>
-<% String date[] = new String[10]; %>
+<%-- 今日の西暦年を取得 --%>
+<% int thisYear = cl.get(Calendar.YEAR); %>
+<% String today = f.format(cl.getTime()); %>
+<%-- 日付入力の下限・上限（前後3年間） --%>
+<% String minDay = (thisYear - 3) + "-01-01"; %>
+<% String maxDay = (thisYear + 3) + "-12-31"; %>
+
+<% System.out.println("today= " + today + "minDay= " + minDay + "maxDay= " + maxDay); %>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -24,7 +25,7 @@
 <p><%= loginUser.getUserName() %>さんログイン中</p>
 <h1>支出の入力</h1>
 <form action="/familyBudget/Main" method="post">
-金額：￥<input type="number" name="inputOutgo" autofocus required><br>
+金額：￥<input type="number" name="inputOutgo" autofocus min="1" required><br>
 カテゴリ：
 <select name="category">
 	<option value="食料品">食料品</option>
@@ -34,23 +35,13 @@
 	<option value="日用品">日用品</option>
 </select><br>
 日付：
-<select name="date" >
 
-<% c.set(year, month, day); %>
-<% String today = ((c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH))+ "-" + c.get(Calendar.DATE))); %>
-<% System.out.println("today= " + today); %>
+<label for="calendar">日付：</label>
+<input type="date" id="calendar" name="date"
+       value="<%= today %>"
+       min="<%= minDay %>" max="<%= maxDay %>"
+       required><br>
 
-<% for(int i = 0; i < 10; i++) { %>
-<%     c.set(year, month, day+i-5); %>
-<%     date[i] = (c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH))+ "-" + c.get(Calendar.DATE)); %>
-
-<option
-<% if(date[i].equals(today)) { %>
-<%=		"selected" %>
-<% } %>
-value="<%= date[i] %>"><%= date[i] %></option>
-<% } %>
-</select><br>
 <a href="/familyBudget/Main">戻る</a>
 <button type="submit">入力</button>
 </form>

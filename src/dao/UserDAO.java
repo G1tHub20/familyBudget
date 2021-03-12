@@ -23,7 +23,7 @@ public class UserDAO {
 			System.out.println("▼▼----------------------------------------------------------------");
 			System.out.println("DB接続成功(findUser)"); //★
 
-			String sql = "SELECT * FROM USER WHERE USER_NAME = \"" + user.getUserName() + "\" AND PASS = \"" + user.getPass() + "\"";
+			String sql = "SELECT * FROM USER WHERE USER_NAME = BINARY \"" + user.getUserName() + "\" AND PASS =  BINARY\"" + user.getPass() + "\"";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
