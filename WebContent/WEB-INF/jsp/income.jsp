@@ -26,7 +26,7 @@
 <h1>収入の入力</h1>
 
 <form action="/familyBudget/Main" method="post">
-金額：￥<input type="number" name="inputIncome" required><br>
+金額：￥<input type="number" name="inputIncome" autofocus required><br>
 カテゴリ：
 <select name="category">
 	<option value="給与">給与</option>

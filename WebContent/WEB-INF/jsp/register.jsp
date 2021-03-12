@@ -10,7 +10,7 @@
 <body>
 <h1>アカウント登録</h1>
 <form action="/familyBudget/Register" method="post"> <!-- ★ -->
-ユーザー名：<input type="text" name="userName" required><br>
+ユーザー名：<input type="text" name="userName" autofocus required><br>
 パスワード：<input type="password" name="pass" required><br>
 <% if(errorMsg != null) { %>
 <p><%= errorMsg %></p>
