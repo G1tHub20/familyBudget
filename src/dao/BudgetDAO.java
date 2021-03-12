@@ -29,7 +29,7 @@ public class BudgetDAO {
 
 			System.out.println("DB接続成功(findAll)"); //★
 
-			String sql = "SELECT * FROM BUDGET WHERE ID = ?";
+			String sql = "SELECT * FROM BUDGET WHERE USER_ID = ?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 //			HttpSession session = request.getSession(); // sessionやrequestはServlet・JSPからじゃないと使えない！！
 //			User loginUser = (User) session.getAttribute("loginUser");
@@ -38,7 +38,7 @@ public class BudgetDAO {
 
 //			pStmt.setInt(1, 2);
 
-			System.out.println("sql = SELECT * FROM BUDGET WHERE ID = " + infoLoginUser.getId()); //★
+			System.out.println("sql = SELECT * FROM BUDGET WHERE USER_ID = " + infoLoginUser.getId()); //★
 
 
 			// SELECTを実行
@@ -46,7 +46,7 @@ public class BudgetDAO {
 
 
 			while (rs.next()) {
-				int id = rs.getInt("ID");
+				int id = rs.getInt("USER_ID");
 				int money = rs.getInt("MONEY");
 				String category = rs.getString("CATEGORY");
 				String date = rs.getString("DATE");
@@ -76,8 +76,8 @@ public class BudgetDAO {
 			System.out.println("▼▼----------------------------------------------------------------");
 			System.out.println("DB接続成功(calcSumMoney)"); //★
 
-//			String sql = "SELECT SUM(MONEY) FROM BUDGET WHERE ID = ?";
-			String sql = "SELECT SUM(MONEY) AS MONEY FROM BUDGET WHERE ID = ?";
+//			String sql = "SELECT SUM(MONEY) FROM BUDGET WHERE USER_ID = ?";
+			String sql = "SELECT SUM(MONEY) AS MONEY FROM BUDGET WHERE USER_ID = ?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
@@ -116,7 +116,7 @@ public class BudgetDAO {
 			System.out.println("▼▼----------------------------------------------------------------");
 			System.out.println("DB接続成功(addMoney)"); //★
 
-			String sql = "INSERT INTO BUDGET(ID, MONEY, CATEGORY, DATE) VALUES(?, ?, ?, ?);";
+			String sql = "INSERT INTO BUDGET(USER_ID, MONEY, CATEGORY, DATE) VALUES(?, ?, ?, ?);";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
