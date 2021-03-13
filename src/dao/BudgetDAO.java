@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Budget;
+import model.SumBudget;
 import model.User;
 
 public class BudgetDAO {
@@ -30,20 +31,17 @@ public class BudgetDAO {
 			System.out.println("DB接続成功(findAll)"); //★
 
 			String sql = "SELECT * FROM BUDGET WHERE USER_ID = ? ORDER BY DATE DESC";
+
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 //			HttpSession session = request.getSession(); // sessionやrequestはServlet・JSPからじゃないと使えない！！
 //			User loginUser = (User) session.getAttribute("loginUser");
 
 			pStmt.setInt(1, infoLoginUser.getId()); //★ 取得したユーザーのIDで指定したい
 
-//			pStmt.setInt(1, 2);
-
 			System.out.println("sql = SELECT * FROM BUDGET WHERE USER_ID = " + infoLoginUser.getId()); //★
-
 
 			// SELECTを実行
 			ResultSet rs = pStmt.executeQuery();
-
 
 			while (rs.next()) {
 				int id = rs.getInt("USER_ID");
@@ -66,10 +64,11 @@ public class BudgetDAO {
 
 
 	// ◆資産総額を算出するメソッド
-	public int calcSumMoney(User loginUser) {
+	public SumBudget calcSumMoney(User loginUser) {
 
 		User infoLoginUser = loginUser;
 
+		SumBudget sumBudget = new SumBudget();
 		int sumMoney = 0;
 		// DB接続
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
@@ -86,17 +85,48 @@ public class BudgetDAO {
 			System.out.println("pStmt=" + pStmt);
 
 			// SELECTを実行
-			ResultSet rs = pStmt.executeQuery();
 
-			if (rs.next()){
-				System.out.println("true？");
+			ResultSet rs1 = pStmt.executeQuery();
 
-				sumMoney = rs.getInt("MONEY");
-
-				System.out.println("sumMoney=" + sumMoney); //★
-			} else {
-				System.out.println("false？");
+			if (rs1.next()) {
+			sumMoney = rs1.getInt("MONEY");
 			}
+
+			System.out.println("sumMoney=" + sumMoney);
+
+//			int rs2[];
+//			rs2 = new int[6];
+
+			String[] sql2;
+			sql2 = new String[6]; //初期化していない可能性エラーのため追加
+
+			int intRs2[];
+			intRs2 = new int[6];
+
+			PreparedStatement[] pStmt2;
+			pStmt2 = new PreparedStatement[6];
+
+
+			String[] categoryForExpense = {"食費", "日用品", "娯楽費", "特別費", "固定費", "その他"};
+
+			for (int i = 0; i < 6; i++) {
+			sql2[i] = "SELECT SUM(MONEY) FROM budget WHERE USER_ID = ? AND CATEGORY = " + "\"" + categoryForExpense[i] + "\"";
+			pStmt2[i] = conn.prepareStatement(sql2[i]);
+			pStmt2[i].setInt(1, infoLoginUser.getId());
+			System.out.println("sql2 = SELECT SUM(MONEY) FROM budget WHERE USER_ID = " + infoLoginUser.getId() + " AND CATEGORY = カテゴリー名"); //★
+
+//			rs2[i] = pStmt2[i].executeQuery().getInt("MONEY");
+			ResultSet rs2 = pStmt2[i].executeQuery();
+
+			while (rs2.next()) {
+					intRs2[i] = rs2.getInt("MONEY");
+				}
+			}
+
+
+//			sumBudget = new SumBudget(sumMoney, rs2[0], rs2[1], rs2[1], rs2[3], rs2[4], rs2[5]);
+			sumBudget = new SumBudget(sumMoney, intRs2[0], intRs2[1], intRs2[2], intRs2[3], intRs2[4], intRs2[5]);
+			System.out.println("sumMoney=" + sumBudget.getSumMoney()); //★
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -104,7 +134,7 @@ public class BudgetDAO {
 		}
 
 		System.out.println("▲▲----------------------------------------------------------------");
-		return sumMoney;
+		return sumBudget;
 	}
 
 

@@ -24,7 +24,7 @@ int sumExpense = food + commodity + amusement + special + fixed + other;
 </head>
 <body>
 <p><%= loginUser.getUserName() %>さんログイン中</p>
-<h2>カテゴリごとの支出</h2>
+<h2>カテゴリごとの支出合計</h2>
 <table>
 <tr><td>食費：</td><td>￥<%= food %></td></tr>
 <tr><td>日用品費：</td><td>￥<%= nf.format(commodity) %></td></tr>
