@@ -30,9 +30,9 @@
 カテゴリ：
 <select name="category">
 	<option value="給与">給与</option>
-	<option value="お年玉">お年玉</option>
+	<option value="年金">年金</option>
 	<option value="お小遣い">お小遣い</option>
-	<option value="繰り越し分">繰り越し分</option>
+	<option value="その他">その他</option>
 </select><br>
 
 <label for="calendar">日付：</label>

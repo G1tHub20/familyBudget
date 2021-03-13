@@ -14,6 +14,8 @@ public class Outgo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+//		request.setAttribute("message", inputInfo); //★受け取ったメッセージをjspに渡す
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/outgo.jsp");
 		dispatcher.forward(request, response);
 	}

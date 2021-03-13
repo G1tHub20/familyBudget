@@ -6,13 +6,13 @@
 
 <%-- 今日の日付を取得 --%>
 <% Calendar cl = Calendar.getInstance(); %>
-<% SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd"); %>
+<% SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); %>
 <%-- 今日の西暦年を取得 --%>
 <% int thisYear = cl.get(Calendar.YEAR); %>
-<% String today = f.format(cl.getTime()); %>
-<%-- 日付入力の下限・上限（前後3年間） --%>
-<% String minDay = (thisYear - 3) + "-01-01"; %>
-<% String maxDay = (thisYear + 3) + "-12-31"; %>
+<% String today = sdf.format(cl.getTime()); %>
+<%-- 日付入力の下限・上限（前後2年間） --%>
+<% String minDay = (thisYear - 2) + "-01-01"; %>
+<% String maxDay = (thisYear + 2) + "-12-31"; %>
 
 <% System.out.println("today= " + today + "minDay= " + minDay + "maxDay= " + maxDay); %>
 
@@ -28,11 +28,12 @@
 金額：￥<input type="number" name="inputOutgo" autofocus min="1" required><br>
 カテゴリ：
 <select name="category">
-	<option value="食料品">食料品</option>
-	<option value="衣服">衣服</option>
-	<option value="交際">交際</option>
-	<option value="光熱費">光熱費</option>
-	<option value="日用品">日用品</option>
+	<option value="食費">食費</option>
+	<option value="日用品費">日用品費</option>
+	<option value="娯楽費">娯楽費</option>
+	<option value="特別費">特別費</option>
+	<option value="固定費">固定費</option>
+	<option value="その他">その他</option>
 </select><br>
 日付：
 

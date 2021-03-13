@@ -9,10 +9,7 @@ public class GetBudgetListLogic {
 
 		System.out.println("GetBudgetListLogic内" + loginUser);
 //		User infoLoginUser = loginUser;
-		System.out.println("GetBudgetListLogic内" + loginUser.getUserName());
-		System.out.println("GetBudgetListLogic内" + loginUser.getPass());
-		System.out.println("GetBudgetListLogic内" + loginUser.getId());
-
+		System.out.println(loginUser.getUserName() + loginUser.getPass() + loginUser.getId());
 		BudgetDAO dao = new BudgetDAO();
 		List<Budget> budgetList = dao.findAll(loginUser);
 

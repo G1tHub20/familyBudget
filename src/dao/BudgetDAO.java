@@ -16,7 +16,7 @@ public class BudgetDAO {
 	private final String DB_USER = "root";
 	private final String DB_PASS = "mysqlpa55";
 
-	// ◆Budgetテーブルからレコードを取得するメソッド
+	// ◆レコードを取得するメソッド
 	public List<Budget> findAll(User loginUser) {
 		List<Budget> budgetList = new ArrayList<>();
 
@@ -29,7 +29,7 @@ public class BudgetDAO {
 
 			System.out.println("DB接続成功(findAll)"); //★
 
-			String sql = "SELECT * FROM BUDGET WHERE USER_ID = ?";
+			String sql = "SELECT * FROM BUDGET WHERE USER_ID = ? ORDER BY DATE DESC";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 //			HttpSession session = request.getSession(); // sessionやrequestはServlet・JSPからじゃないと使えない！！
 //			User loginUser = (User) session.getAttribute("loginUser");
@@ -65,7 +65,7 @@ public class BudgetDAO {
 	}
 
 
-	// ◆Budgetテーブルから資産総額を算出するメソッド
+	// ◆資産総額を算出するメソッド
 	public int calcSumMoney(User loginUser) {
 
 		User infoLoginUser = loginUser;
@@ -108,7 +108,7 @@ public class BudgetDAO {
 	}
 
 
-	// ◆Budgetテーブルに支出入を追加するメソッド
+	// ◆支出入を追加するメソッド
 	public boolean addMoney(Budget budget) {
 
 		// DB接続
@@ -127,6 +127,10 @@ public class BudgetDAO {
 			pStmt.setString(4, budget.getDate());
 
 			System.out.println("pStmt=" + pStmt);
+
+			String inputInfo = budget.getDate() + "\r\n" + budget.getCategory() + "：￥" + budget.getMoney(); //★入力後にメッセージを渡したい
+
+
 
 			// INSERTを実行
 			int result = pStmt.executeUpdate();
