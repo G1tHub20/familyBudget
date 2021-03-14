@@ -64,18 +64,17 @@ public class BudgetDAO {
 
 
 	// ◆資産総額を算出するメソッド
-	public SumBudget calcSumMoney(User loginUser) {
+	public int calcSumMoney(User loginUser) {
 
 		User infoLoginUser = loginUser;
 
-		SumBudget sumBudget = new SumBudget();
 		int sumMoney = 0;
 		// DB接続
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 			System.out.println("▼▼----------------------------------------------------------------");
 			System.out.println("DB接続成功(calcSumMoney)"); //★
 
-//			String sql = "SELECT SUM(MONEY) FROM BUDGET WHERE USER_ID = ?";
+//			String sql = "SELECT SUM(MONEY) FROM BUDGET WHERE ID = ?";
 			String sql = "SELECT SUM(MONEY) AS MONEY FROM BUDGET WHERE USER_ID = ?";
 
 			PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -85,48 +84,68 @@ public class BudgetDAO {
 			System.out.println("pStmt=" + pStmt);
 
 			// SELECTを実行
+			ResultSet rs = pStmt.executeQuery();
 
-			ResultSet rs1 = pStmt.executeQuery();
+			if (rs.next()){
+				System.out.println("true？");
 
-			if (rs1.next()) {
-			sumMoney = rs1.getInt("MONEY");
+				sumMoney = rs.getInt("MONEY");
+
+				System.out.println("sumMoney=" + sumMoney); //★
+			} else {
+				System.out.println("false？");
 			}
 
-			System.out.println("sumMoney=" + sumMoney);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("DB接続しっぱい"); //★
+		}
 
-//			int rs2[];
-//			rs2 = new int[6];
+		System.out.println("▲▲----------------------------------------------------------------");
+		return sumMoney;
+	}
 
-			String[] sql2;
-			sql2 = new String[6]; //初期化していない可能性エラーのため追加
+	// ◆カテゴリごとの支出合計を算出するメソッド
+	public SumBudget calcCategoryExpense(User loginUser) {
 
-			int intRs2[];
-			intRs2 = new int[6];
+		User infoLoginUser = loginUser;
 
-			PreparedStatement[] pStmt2;
-			pStmt2 = new PreparedStatement[6];
+		SumBudget sumBudget = new SumBudget();
+		// DB接続
+		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+			System.out.println("▼▼----------------------------------------------------------------");
+			System.out.println("DB接続成功(calcCategoryExpense)"); //★
 
+			String[] sql;
+			sql = new String[6]; //初期化していない可能性エラーのため追加
 
-			String[] categoryForExpense = {"食費", "日用品", "娯楽費", "特別費", "固定費", "その他"};
+			int intRs[];
+			intRs = new int[6];
+
+			PreparedStatement[] pStmt;
+			pStmt = new PreparedStatement[6];
+
+			String[] categoryForExpense = {"食費", "日用品費", "娯楽費", "特別費", "固定費", "その他"};
 
 			for (int i = 0; i < 6; i++) {
-			sql2[i] = "SELECT SUM(MONEY) FROM budget WHERE USER_ID = ? AND CATEGORY = " + "\"" + categoryForExpense[i] + "\"";
-			pStmt2[i] = conn.prepareStatement(sql2[i]);
-			pStmt2[i].setInt(1, infoLoginUser.getId());
-			System.out.println("sql2 = SELECT SUM(MONEY) FROM budget WHERE USER_ID = " + infoLoginUser.getId() + " AND CATEGORY = カテゴリー名"); //★
+			sql[i] = "SELECT SUM(MONEY) FROM budget WHERE USER_ID = ? AND CATEGORY = " + "\"" + categoryForExpense[i] + "\"";
+			pStmt[i] = conn.prepareStatement(sql[i]);
+			pStmt[i].setInt(1, infoLoginUser.getId());
+			System.out.println("sql = SELECT SUM(MONEY) FROM budget WHERE USER_ID = " + infoLoginUser.getId() + " AND CATEGORY = " + "\"" + categoryForExpense[i] + "\""); //★
 
-//			rs2[i] = pStmt2[i].executeQuery().getInt("MONEY");
-			ResultSet rs2 = pStmt2[i].executeQuery();
+//			rs[i] = pStmt[i].executeQuery().getInt("MONEY");
+			ResultSet rs = pStmt[i].executeQuery();
 
-			while (rs2.next()) {
-					intRs2[i] = rs2.getInt("MONEY");
+				while (rs.next()) {
+					System.out.println("ResultSetここから");
+//					intRs[i] = rs.getInt(i); // SELECT 要素名 ― rs.getInt("要素名") // SELECT 要素名 ― rs.getInt("要素名")
+					intRs[i] = rs.getInt("SUM(MONEY)"); // SELECT 要素名 ― rs.getInt("要素名") // SELECT 要素名 ― rs.getInt("要素名")
+					System.out.println("ResultSetから取得");
 				}
 			}
 
-
-//			sumBudget = new SumBudget(sumMoney, rs2[0], rs2[1], rs2[1], rs2[3], rs2[4], rs2[5]);
-			sumBudget = new SumBudget(sumMoney, intRs2[0], intRs2[1], intRs2[2], intRs2[3], intRs2[4], intRs2[5]);
-			System.out.println("sumMoney=" + sumBudget.getSumMoney()); //★
+			sumBudget = new SumBudget(intRs[0], intRs[1], intRs[2], intRs[3], intRs[4], intRs[5]);
+			System.out.println("食費=" + sumBudget.getOfFood() + ",日用品費=" + sumBudget.getOfCommodity() + ",娯楽費=" + sumBudget.getOfAmusument() + ",固定費=" + sumBudget.getOfFixed() + ",特別費=" + sumBudget.getOfSpecial() +  ",その他=" + sumBudget.getOfOther()); //★
 
 		} catch (SQLException e) {
 			e.printStackTrace();

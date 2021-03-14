@@ -1,20 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="model.Budget, java.util.List, model.User, java.text.NumberFormat" %>
-<% User loginUser = (User) session.getAttribute("loginUser");
+<%@ page import="model.Budget, model.SumBudget, java.util.List, model.User, java.text.NumberFormat" %>
+<%
+User loginUser = (User) session.getAttribute("loginUser");
 List<Budget> budgetList = (List<Budget>) session.getAttribute("budgetList");
 %>
+<% SumBudget sumBudget = (SumBudget) session.getAttribute("sumBudget"); %>
 <% NumberFormat nf = NumberFormat.getNumberInstance(); %>
 
-<%
+<%--
 int food = 43000;
 int commodity = 8000;
 int amusement = 10000;
 int special = 2000;
 int fixed = 7000;
 int other = 10000;
-int sumExpense = food + commodity + amusement + special + fixed + other;
-;%>
+--%>
+
+<%
+int food = sumBudget.getOfFood();
+int commodity = sumBudget.getOfCommodity();
+int amusement = sumBudget.getOfAmusument();
+int special = sumBudget.getOfSpecial();
+int fixed = sumBudget.getOfFixed();
+int other = sumBudget.getOfOther();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -32,7 +42,6 @@ int sumExpense = food + commodity + amusement + special + fixed + other;
 <tr><td>特別費：</td><td>￥<%= nf.format(special) %></td></tr>
 <tr><td>固定費：</td><td>￥<%= nf.format(fixed) %></td></tr>
 <tr><td>その他：</td><td>￥<%= nf.format(other) %></td></tr>
-<tr><td>合計：</td><td>￥<%= nf.format(sumExpense) %></td></tr>
 </table>
 
 <h2>収支りれき</h2>

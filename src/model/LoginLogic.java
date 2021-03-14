@@ -18,8 +18,7 @@ public class LoginLogic {
 			// 登録済みユーザーならついでに資産総額も取得
 			BudgetDAO dao2 = new BudgetDAO();
 
-			SumBudget sumBudget = dao2.calcSumMoney(loginUser);
-			int sumMoney = sumBudget.getSumMoney();
+			int sumMoney = dao2.calcSumMoney(loginUser);
 			System.out.println("資産総額=" + sumMoney);
 
 			loginUser2 = new User(loginUser.getId(), loginUser.getUserName(), loginUser.getPass(), sumMoney);

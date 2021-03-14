@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 
 public class SumBudget implements Serializable {
-		private int sumMoney;
+
 		private int ofFood;
 		private int ofCommodity;
 		private int ofAmusument;
@@ -12,8 +12,7 @@ public class SumBudget implements Serializable {
 		private int ofOther;
 
 		public SumBudget() {}
-		public SumBudget(int sumMoney, int ofFood, int ofCommodity, int ofAmusument, int ofSpecial, int ofFixed, int ofOther) {
-			this.sumMoney = sumMoney;
+		public SumBudget(int ofFood, int ofCommodity, int ofAmusument, int ofSpecial, int ofFixed, int ofOther) {
 			this.ofFood = ofFood;
 			this.ofCommodity = ofCommodity;
 			this.ofAmusument = ofAmusument;
@@ -22,9 +21,6 @@ public class SumBudget implements Serializable {
 			this.ofOther = ofOther;
 		}
 
-		public int getSumMoney() {
-			return sumMoney;
-		}
 		public int getOfFood() {
 			return ofFood;
 		}
