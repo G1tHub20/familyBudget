@@ -139,7 +139,7 @@ public class BudgetDAO {
 				while (rs.next()) {
 					System.out.println("ResultSetここから");
 //					intRs[i] = rs.getInt(i); // SELECT 要素名 ― rs.getInt("要素名") // SELECT 要素名 ― rs.getInt("要素名")
-					intRs[i] = rs.getInt("SUM(MONEY)"); // SELECT 要素名 ― rs.getInt("要素名") // SELECT 要素名 ― rs.getInt("要素名")
+					intRs[i] = -(rs.getInt("SUM(MONEY)")); // SELECT 要素名 ― rs.getInt("要素名") // SELECT 要素名 ― rs.getInt("要素名")
 					System.out.println("ResultSetから取得");
 				}
 			}

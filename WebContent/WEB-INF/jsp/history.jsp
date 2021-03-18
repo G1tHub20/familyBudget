@@ -8,14 +8,6 @@ List<Budget> budgetList = (List<Budget>) session.getAttribute("budgetList");
 <% SumBudget sumBudget = (SumBudget) session.getAttribute("sumBudget"); %>
 <% NumberFormat nf = NumberFormat.getNumberInstance(); %>
 
-<%--
-int food = 43000;
-int commodity = 8000;
-int amusement = 10000;
-int special = 2000;
-int fixed = 7000;
-int other = 10000;
---%>
 
 <%
 int food = sumBudget.getOfFood();
@@ -31,18 +23,22 @@ int other = sumBudget.getOfOther();
 <head>
 <meta charset="UTF-8">
 <title>収支りれき</title>
+<script type="text/javascript" src="js/drawGraph.js"></script>
 </head>
 <body>
 <p><%= loginUser.getUserName() %>さんログイン中</p>
 <h2>カテゴリごとの支出合計</h2>
 <table>
-<tr><td>食費：</td><td>￥<%= food %></td></tr>
-<tr><td>日用品費：</td><td>￥<%= nf.format(commodity) %></td></tr>
-<tr><td>娯楽費：</td><td>￥<%= nf.format(amusement) %></td></tr>
-<tr><td>特別費：</td><td>￥<%= nf.format(special) %></td></tr>
-<tr><td>固定費：</td><td>￥<%= nf.format(fixed) %></td></tr>
-<tr><td>その他：</td><td>￥<%= nf.format(other) %></td></tr>
+<tr><td>食費：</td><td>￥<span id='food'><%= food %></span></td></tr>
+<tr><td>日用品費：</td><td>￥<span id='commodity'><%= commodity %></span></td></tr>
+<tr><td>娯楽費：</td><td>￥<span id='amusement'><%= amusement %></span></td></tr>
+<tr><td>特別費：</td><td>￥<span id='special'><%= special %></span></td></tr>
+<tr><td>固定費：</td><td>￥<span id='fixed'><%= fixed %></span></td></tr>
+<tr><td>その他：</td><td>￥<span id='other'><%= other %></span></td></tr>
 </table>
+
+<canvas id="target" width="200" height="200" style="background-color:gray;"></canvas>
+<p><span style="color:red">■</span>食費、<span style="color:blue">■</span>日用品費、<span style="color:green">■</span>娯楽費、<span style="color:yellow">■</span>特別費、<span style="color:orange">■</span>固定費、<span style="color:black">■</span>その他</p>
 
 <h2>収支りれき</h2>
 <table>
