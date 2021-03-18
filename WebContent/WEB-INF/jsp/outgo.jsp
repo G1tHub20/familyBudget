@@ -13,7 +13,6 @@
 <%-- 日付入力の下限・上限（前後2年間） --%>
 <% String minDay = (thisYear - 2) + "-01-01"; %>
 <% String maxDay = (thisYear + 2) + "-12-31"; %>
-
 <% System.out.println("today= " + today + "minDay= " + minDay + "maxDay= " + maxDay); %>
 
 <html>
@@ -21,6 +20,7 @@
 <meta charset="UTF-8">
 <title>支出</title>
 </head>
+
 <body>
 <p><%= loginUser.getUserName() %>さんログイン中</p>
 <h1>支出の入力</h1>

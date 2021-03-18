@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>アカウント登録</title>
 </head>
+
 <body>
 <h1>アカウント登録</h1>
 <form action="/familyBudget/Register" method="post"> <!-- ★ -->

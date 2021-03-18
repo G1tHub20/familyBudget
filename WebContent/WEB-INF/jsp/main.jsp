@@ -13,6 +13,7 @@
 <meta charset="UTF-8">
 <title>家計簿メイン</title>
 </head>
+
 <body>
 <p><%= loginUser.getUserName() %>さんログイン中<a href="/familyBudget/Logout">ログアウト</a></p>
 <h1>資産総額</h1>

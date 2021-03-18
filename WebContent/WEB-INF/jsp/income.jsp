@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <%@ page import="model.User, java.util.Date, java.text.SimpleDateFormat, java.util.Calendar" %>
 <% User loginUser = (User) session.getAttribute("loginUser"); %>
-
 <%-- 今日の日付を取得 --%>
 <% Calendar cl = Calendar.getInstance(); %>
 <% SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd"); %>
@@ -13,7 +12,6 @@
 <%-- 日付入力の下限・上限（前後3年間） --%>
 <% String minDay = (thisYear - 3) + "-01-01"; %>
 <% String maxDay = (thisYear + 3) + "-12-31"; %>
-
 <% System.out.println("today= " + today + "minDay= " + minDay + "maxDay= " + maxDay); %>
 
 <html>
@@ -21,6 +19,7 @@
 <meta charset="UTF-8">
 <title>収入</title>
 </head>
+
 <body>
 <p><%= loginUser.getUserName() %>さんログイン中</p>
 <h1>収入の入力</h1>
