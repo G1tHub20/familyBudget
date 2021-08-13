@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="model.Budget, model.SumBudget, java.util.List, model.User, java.text.NumberFormat" %>
+<%@ page import="model.Budget, model.SumBudget, java.util.List,model.UserBean,java.text.NumberFormat" %>
 <%
-User loginUser = (User) session.getAttribute("loginUser");
+	UserBean loginUser = (UserBean) session.getAttribute("loginUser");
 List<Budget> budgetList = (List<Budget>) session.getAttribute("budgetList");
 %>
 <% SumBudget sumBudget = (SumBudget) session.getAttribute("sumBudget"); %>

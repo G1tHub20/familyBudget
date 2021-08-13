@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="model.User, java.text.NumberFormat" %>
-<% User loginUser = (User) session.getAttribute("loginUser"); %>
+<%@ page import="model.UserBean,java.text.NumberFormat" %>
+<%
+	UserBean loginUser = (UserBean) session.getAttribute("loginUser");
+%>
 <% String message = (String) request.getAttribute("message"); %>
 <%-- 資産総額の取得と整形 --%>
 <% int balance = loginUser.getSumMoey(); %>

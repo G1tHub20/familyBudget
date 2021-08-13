@@ -38,7 +38,7 @@ public class Register extends HttpServlet {
 			RegisterLogic registerLogic = new RegisterLogic();
 			registerLogic.execute(user);
 			request.setAttribute("loginUser", loginUser);
-			request.setAttribute("errorMsg", "アカウントを新規登録しました");
+			request.setAttribute("errorMsg", "登録が完了しました。");
 		} else {
 			System.out.println("別のユーザー名を使用してください");
 			request.setAttribute("errorMsg", "使用できません。別のユーザー名を入力してください");
